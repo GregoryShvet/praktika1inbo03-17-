@@ -1,0 +1,503 @@
+Швецов Григорий 
+Группа ИНБО-03-17
+
+*****************************************************************************
+Практика 2
+
+Author.java
+
+package prog;
+
+import java.util.Scanner;
+
+public class Author {
+    Scanner in = new Scanner(System.in);
+    private String name = "George Orwell";
+    private String email;
+    private char gender = 'M';
+
+    public Author(){}
+    public Author(String name, String email, char gender){
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+    }
+
+    public void setEmail(){
+        System.out.print("Enter the Email: ");
+        this.email = in.nextLine();
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public char getGender(){
+        return gender;
+    }
+
+
+    public String ToString(){
+        return getName() + " (" + getGender() + ") at " + getEmail();
+    }
+
+}
+
+
+TestAuthor.java
+
+package prog;
+
+
+
+public class TestAuthor {
+
+    public static void main(String[] args) {
+
+        Author author = new Author();
+        author.setEmail();
+
+        System.out.print(author.ToString());
+
+    }
+}
+
+
+*****************************************************************************
+Практика 3
+
+Main.java
+
+package com.company;
+
+public class Main {
+    public static void main(String[] args) {
+        MovableCircle circle = new MovableCircle(0,0,5,5,10);
+        System.out.println(circle.toString());
+    }
+}
+
+MovablePoint.java
+
+package com.company;
+
+public class MovablePoint implements Movable {
+    int x;
+    int y;
+    int xSpeed;
+    int ySpeed;
+
+    public MovablePoint(int x, int y, int xSpeed, int ySpeed) {
+        this.x= x;
+        this.y= y;
+        this.xSpeed= xSpeed;
+        this.ySpeed= ySpeed;
+    }
+
+    @Override
+    public String toString() {
+        return "MCNVI.MovablePoint{" +
+                "x=" + x +
+                ", y=" + y +
+                ", xSpeed=" + xSpeed+
+                ", ySpeed=" + ySpeed+
+                '}';
+    }
+
+    @Override
+    public void moveUp() {
+        y=y+ySpeed;
+    }
+
+    @Override
+    public void moveDown() {
+        y=y-ySpeed;
+    }
+
+    @Override
+    public void moveLeft() {
+        x=x-xSpeed;
+    }
+
+    @Override
+    public void moveRight() {
+        x=x+xSpeed;
+    }
+}
+
+MovableCircle.java
+
+package com.company;
+
+public class MovableCircle implements Movable {
+    private int radius;
+    private MovablePoint center;
+
+    public MovableCircle(int x, int y, int xSpeed, int ySpeed, int radius) {
+        this.center=new MovablePoint(x,y,xSpeed,ySpeed);
+        this.radius=radius;
+    }
+
+    @Override
+    public String toString() {
+        return "MovableCircle{" +
+                "radius=" + radius +
+                ", center=" + center +
+                '}';
+    }
+
+    @Override
+    public void moveUp() {
+        center.y=center.y+center.ySpeed;
+    }
+
+    @Override
+    public void moveDown() {
+        center.y=center.y-center.ySpeed;
+    }
+
+    @Override
+    public void moveLeft() {
+        center.x=center.x-center.xSpeed;
+    }
+
+    @Override
+    public void moveRight() {
+        center.x=center.x+center.xSpeed;
+    }
+}
+
+Movable.java
+
+package com.company;
+
+public interface Movable {
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
+}
+
+*****************************************************************************
+Практика 4
+
+Main.java
+
+package com.company;
+
+import javax.swing.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Gui example = new Gui();
+        example.setVisible(true);
+        example.setSize(320,240);
+        example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        example.setResizable(false);
+    }
+}
+
+Gui.java
+
+package com.company;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+;import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Gui extends JFrame implements ActionListener {
+    int team1 = 0;
+    int team2 = 0;
+    String team = "N/A";
+    JPanel panel = new JPanel(null);
+    JButton Milan = new JButton("FC Milan");
+    JButton Real = new JButton("Real Madrid");
+    JLabel result = new JLabel("Result: " + team1 + "X" + team2);
+    JLabel last_scorer= new JLabel("Last scorer: " + team);
+    JLabel winner = new JLabel("DRAW");
+
+    public Gui(){
+        this.setContentPane(panel);
+        Milan.setBounds(40,40,110,20);
+        Milan.addActionListener(this);
+        Real.setBounds(170,40,110,20);
+        Real.addActionListener(this);
+        result.setBounds(125,60,80,20);
+        last_scorer.setBounds(125,80,140,20);
+        winner.setBounds(125,100,70,20);
+        panel.add(Milan);
+        panel.add(Real);
+        panel.add(result);
+        panel.add(last_scorer);
+        panel.add(winner);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        if(command.equals("FC Milan")){
+            team = "FC Milan";
+            team1++;
+            if(team1>team2){
+                winner.setText("FC Milan");
+            }
+            else if(team1==team2){
+                winner.setText("DRAW");
+            }
+            result.setText("Result: " + team1 + "X" + team2);
+            last_scorer.setText("Last scorer: " + team);
+        }
+        else if(command.equals("Real Madrid")){
+            team = "Real Madrid";
+            team2++;
+            if(team2>team1){
+                winner.setText("Real Madrid");
+            }
+            else if(team1==team2){
+                winner.setText("DRAW");
+            }
+            result.setText("Result: " + team1 + "X" + team2);
+            last_scorer.setText("Last scorer: " + team);
+        }
+    }
+}
+
+*****************************************************************************
+
+*****************************************************************************
+Практика 6
+
+Main.java
+
+package com.company;
+
+import java.util.Collections;
+
+public class Main {
+
+    public static void main(String[] args) {
+        StudentList example = new StudentList();
+        for(Student student:example.list){
+            System.out.println(student.toString());
+        }
+        Collections.sort(example.list, new SortingStudentsByGPA());
+        System.out.println("Послесортировки:");
+        for(Student student:example.list){
+            System.out.println(student.toString());
+        }
+    }
+}
+
+StudemtList.java
+
+package com.company;
+
+import java.util.ArrayList;
+
+public class StudentList {
+    Student one = new Student("Maksim", "Ivanov", 4);
+    Student two = new Student("Artem","Petrov", 5);
+    Student three = new Student("Oleg", "Makarov", 3);
+    ArrayList<Student>list = new ArrayList<>();
+    StudentList(){
+        list.add(one);
+        list.add(two);
+        list.add(three);
+    }
+}
+
+SortingStudentsByGPA.java
+
+package com.company;
+
+import java.util.Comparator;
+public class SortingStudentsByGPA implements Comparator {
+    @Override
+    public int compare(Object o1, Object o2) {
+        if(((Student)o1).getGPA()>((Student)o2).getGPA()){
+            return -1;
+        }
+        else return 1;
+    }
+}
+
+Student.java
+
+package com.company;
+
+public class Student {
+    String name;
+    String lastname;
+    int GPA;
+
+    public Student(String name, String lastname, int GPA) {
+        this.name = name;
+        this.lastname= lastname;
+        this.GPA= GPA;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public int getGPA() {
+        return GPA;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", lastname='" + lastname+ '\'' +
+                ", GPA=" + GPA +
+                '}';
+    }
+}
+
+*****************************************************************************
+Практика 7
+
+Main.java
+
+package com.company;
+
+public class Main {
+    public static void main(String[] args) {
+        Game game = new Game();
+        System.out.println(game.toString());
+        game.gameplay();
+        System.out.println(game.toString());
+        if(game.playerOneWins)
+            System.out.println("first " + game.n);
+        else if(game.playerTwoWins)
+            System.out.println("second " + game.n);
+        else System.out.println("botva");
+    }
+}
+
+Deck.java
+
+package com.company;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+
+public class Deck {
+    ArrayList<Card>list = new ArrayList<>();
+    Deck(){
+        int i=0;
+        while (i<10){
+            Card card = new Card(i);
+            list.add(card);
+            i++;
+        }
+    }
+    public void ShuffleDeck(){
+        list.sort(new Comparator<Card>() {
+            @Override
+            public int compare(Card o1, Card o2) {
+                int a = (int)(Math.random()*10);
+                if(a<5){
+                    return 1;
+                }
+                else return -1;
+            }
+        });
+    }
+
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "list=" + list +
+                '}';
+    }
+}
+
+Card.java
+
+package com.company;
+
+public class Card {
+    int rank;
+    public Card(int rang) {
+        this.rank= rang;
+    }
+    public int getRank() {
+        return rank;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "rank=" + rank +
+                '}';
+    }
+}
+
+Game.java
+
+package com.company;
+
+
+import java.util.ArrayDeque;
+
+
+public class Game {
+    boolean playerOneWins= false;
+    boolean playerTwoWins= false;
+    int n = 0;
+    Deck deck= new Deck();
+    ArrayDeque<Card>player1 = new ArrayDeque<>();
+    ArrayDeque<Card>player2 = new ArrayDeque<>();
+    Game(){
+        int i = 0;
+        deck.ShuffleDeck();
+        while(i<5){
+            player1.push(deck.list.get(i));
+            player2.push(deck.list.get(i+5));
+            i++;
+        }
+
+    }
+    public void gameplay() {
+        while (!(playerOneWins|| playerTwoWins|| (n >106))) {
+            n++;
+            if (player1.getFirst().getRank() >player2.getFirst().getRank()) {
+                player1.addLast(player1.getFirst());
+                player1.removeFirst();
+                player1.addLast(player2.getFirst());
+                player2.removeFirst();
+                if (player2.isEmpty())
+                    playerOneWins= true;
+            }
+            else {
+                player2.addLast(player2.getFirst());
+                player2.removeFirst();
+                player2.addLast(player1.getFirst());
+                player1.removeFirst();
+                if (player1.isEmpty())
+                    playerTwoWins= true;
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "deck=" + deck +
+                ", player1=" + player1 +
+                ", player2=" + player2 +
+                '}';
+    }
+}
